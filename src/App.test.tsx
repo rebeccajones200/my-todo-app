@@ -1,60 +1,90 @@
 import React from 'react';
-import { render, screen, fireEvent} from '@testing-library/react';
+import { render, screen, fireEvent, waitFor} from '@testing-library/react';
 import "@testing-library/jest-dom";
 import userEvent from '@testing-library/user-event';
 import App from './App';
 
-describe("Task Manager App", () => {
-  test("adds a new task", async () => {
+test("adds a new task", async () => {
     render(<App />);
 
+  //add a task
     const input = screen.getByPlaceholderText(/Enter a new task/i); //case-insensetive match
     const addButton =screen.getByRole("button", { name: /add task/i}); //more flexible matching
     
-    await userEvent.type(input, "New task");
+    await userEvent.type(input, "Test task");
     fireEvent.click(addButton);
 
-    expect(
-      await screen.findByText((content) => content.includes("New task"))) 
-  })
-}); 
+  //wait for task to appear
+    const taskItem = await screen.findByText("Test task");
+    expect(taskItem).toBeInTheDocument();
+
+//find first complete button
+    const completeButton = screen.getByRole("button", { name: /complete/i});
+    fireEvent.click(completeButton);
+
+  //wait for button text to change to undo
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: /undo/i })).toBeInTheDocument();
+    });
+
+  //ensure task has completed class
+    expect(screen.getByRole("button",  { name: /undo/i } )).toBeInTheDocument();
+  });
 
 test("mark a task as completed", async () => {
   render(<App />);
 
-  const input = screen.getByPlaceholderText("Enter a new task");
-  const addButton = screen.getByText("add text");
+  //Add a new task
+  const input = screen.getByPlaceholderText(/enter a new task/i);
+  const addButton = screen.getByRole("button", { name: /add task/i});
 
-  //Add a task
-  await userEvent.type(input, "Complete this task");
+  await userEvent.type(input, "Complete Me");
   fireEvent.click(addButton);
 
-  //Click complete task button
-  const completeButton = screen.getByText("Complete");
+  //wait for task to appear in list
+  const taskItem = await screen.findByText("Complete Me");
+  expect(taskItem).toBeInTheDocument();
+
+  //find and click "complete" button
+  const completeButton = screen.getByRole("button", { name: /complete/i });
   fireEvent.click(completeButton);
 
-  //check if task has a strikethrough(complete was applied)
-  const taskText = screen.getByText("Complete this task");
-  expect(taskText).toHaveClass("completed");
+//wait for UI update and check correct element (li)
+  await waitFor(() => {
+    expect(taskItem.closest("li")).toHaveClass("completed");
+  });
+  expect(await screen.findByRole("button", { name: /undo/i })).toBeInTheDocument();
 });
+
+
+
+
+
 
 test("deletes a task", async () => {
   render(<App />);
 
-  const input = screen.getByPlaceholderText("Enter a new task");
-  const addButton = screen.getByText((content) => content.includes("add task"));
+  const input = screen.getByPlaceholderText(/enter a new task/i);
+  const addButton =screen.getByRole("button", { name: /add task/i});
 
   //Add a task
-  await userEvent.type(input, "Task to delete");
+  await userEvent.type(input, "Delete me");
   fireEvent.click(addButton);
 
-  //Click delete task button
-  const deleteButton = screen.getByText("Delete");
+//wait for task to appear
+  const taskItem = await screen.findByText("Delete me");
+    expect(taskItem).toBeInTheDocument();
+
+  //find delete task button
+  const deleteButton = screen.getByRole("button", { name: /delete/i});
   fireEvent.click(deleteButton);
 
-  //check if task is no longer in the document
-  expect(screen.queryByText("Task to delete")).not.toBeInTheDocument();
+  //ensure task is removed from Dom
+  await waitFor(() => {
+    expect(screen.queryByText("Delete Me")).not.toBeInTheDocument();
 
+  });
+  
 
 
 
