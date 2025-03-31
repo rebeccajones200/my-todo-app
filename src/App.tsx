@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import Task from "./components/Task";
+import TaskComponent from "./components/Task";
 import TaskInput from "./components/TaskInput";
 import './App.css';
+import { Task } from "./types";
 
 
-interface Task {
-  id: number;
-  text: string;
-  completed: boolean;
-}
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -43,7 +39,7 @@ const App: React.FC = () => {
       <TaskInput addTask={addTask} />
       <ul className='task-list'>   
         {tasks.map((task, index) => (
-          <Task
+          <TaskComponent
             key={task.id} 
             task={task}
             index={index} 

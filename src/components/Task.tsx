@@ -1,18 +1,15 @@
 import React from "react";
+import type { Task } from "../types"
 
 
 interface Taskprops {
-    task: {
-        id: number;
-        text: string; 
-        completed: boolean;
-    };
+    task: Task;
     index: number;
     toggleComplete: (index:number) => void;
     deleteTask: (index: number) => void;
 }
 
-const Task: React.FC<Taskprops> = ({ task, index, toggleComplete, deleteTask}) => {
+const TaskComponent: React.FC<Taskprops> = ({ task, index, toggleComplete, deleteTask}) => {
     return (
         <li data-testid={`task-${index}`} className={`task-item ${task.completed ? "completed" : ""}`}>
             <span>{task.text}</span>
@@ -26,4 +23,4 @@ const Task: React.FC<Taskprops> = ({ task, index, toggleComplete, deleteTask}) =
         
     );
 };
-export default Task;
+export default TaskComponent;
