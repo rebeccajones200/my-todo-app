@@ -1,6 +1,6 @@
 import React, { useState} from "react";
 
-//recieves addTask as prop
+
 interface TaskInputProps {
     addTask: (taskText: string) => void;
 }
@@ -11,7 +11,7 @@ const TaskInput: React.FC<TaskInputProps> = ({ addTask }) => {
         setTaskText(e.target.value);
     };
 
-    //prevent page from reloading, clears input field
+    
     const handleSubmit = (e:React.FormEvent) => {
         e.preventDefault();
         if (taskText.trim()) {
@@ -20,7 +20,7 @@ const TaskInput: React.FC<TaskInputProps> = ({ addTask }) => {
         }
     }
 
-//input box and button
+
     return (
         <form onSubmit={handleSubmit} className="task-form">
             <input

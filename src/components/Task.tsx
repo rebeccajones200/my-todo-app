@@ -1,6 +1,6 @@
 import React from "react";
 
-//accepts functions and a task
+
 interface Taskprops {
     task: {
         id: number;
@@ -11,7 +11,7 @@ interface Taskprops {
     toggleComplete: (index:number) => void;
     deleteTask: (index: number) => void;
 }
-//display task text, completed/undo button and delete button
+
 const Task: React.FC<Taskprops> = ({ task, index, toggleComplete, deleteTask}) => {
     return (
         <li data-testid={`task-${index}`} className={`task-item ${task.completed ? "completed" : ""}`}>
