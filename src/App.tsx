@@ -3,7 +3,7 @@ import Task from "./components/Task";
 import TaskInput from "./components/TaskInput";
 import './App.css';
 
-//what task looks like
+
 interface Task {
   id: number;
   text: string;
@@ -11,18 +11,18 @@ interface Task {
 }
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([]); //state to store tasks
+  const [tasks, setTasks] = useState<Task[]>([]);
  
   const addTask = (taskText: string): void => {
     const newTask: Task = {
-      id: Date.now(), //generating a unique id
+      id: Date.now(), 
       text: taskText, 
       completed: false,
     };
-    setTasks((prevTasks) => [...prevTasks, newTask]); //updating the state
+    setTasks((prevTasks) => [...prevTasks, newTask]); 
   };
  
-  //finnd task in list, switch completed i.e true or false
+  
   const toggleComplete = (index: number) => {
     setTasks((prevTasks) =>
       prevTasks.map((task, i) =>
@@ -31,22 +31,22 @@ const App: React.FC = () => {
     );
   };
 
- //delete task
+ 
   const deleteTask = (index: number) => {
     setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
   };
 
-  //pass addTask to taskInput and loop through task array and renders
+  
   return (
-    <div className='conatiner'> 
+    <div className='container'> 
     <h1>Task Manager</h1>
       <TaskInput addTask={addTask} />
       <ul className='task-list'>   
         {tasks.map((task, index) => (
           <Task
-            key={task.id} //ensure key is unique
+            key={task.id} 
             task={task}
-            index={index} //pass the index to task component
+            index={index} 
             toggleComplete={toggleComplete}
             deleteTask={deleteTask}
           />
