@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TaskComponent from "./components/Task";
 import TaskInput from "./components/TaskInput";
 import './App.css';
-import { Task } from "./types";
+import type { Task } from "./types";
 
 
 
@@ -19,17 +19,17 @@ const App: React.FC = () => {
   };
  
   
-  const toggleComplete = (index: number) => {
+  const toggleComplete = (id: number) => {
     setTasks((prevTasks) =>
       prevTasks.map((task, i) =>
-        i == index ? { ...task, completed: !task.completed } :task
+        task.id === id ? { ...task, completed: !task.completed } :task
       )
     );
   };
 
  
-  const deleteTask = (index: number) => {
-    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+  const deleteTask = (id: number) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
   
