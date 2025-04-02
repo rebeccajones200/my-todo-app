@@ -2,25 +2,25 @@ import React from "react";
 import type { Task } from "../types"
 
 
-interface Taskprops {
+interface TaskProps {
     task: Task;
-    index: number;
-    toggleComplete: (index:number) => void;
-    deleteTask: (index: number) => void;
+    toggleComplete: (id:number) => void;
+    deleteTask: (id: number) => void;
 }
 
-const TaskComponent: React.FC<Taskprops> = ({ task, index, toggleComplete, deleteTask}) => {
+const TaskComponent: React.FC<TaskProps> = ({ task, toggleComplete, deleteTask}) => {
     return (
-        <li data-testid={`task-${index}`} className={`task-item ${task.completed ? "completed" : ""}`}>
+        <li className= {`task-list-item ${task.completed ? "completed" : ""}`}>
             <span>{task.text}</span>
-            <div>
-                <button onClick={() => toggleComplete(index)} className="complete-btn">
-                    {task.completed ? "Undo" : "Complete"}
-                </button>
-                <button onClick={() => deleteTask(index)} className="delete-btn">Delete</button>
+            <div> 
+            <button onClick={() => toggleComplete(task.id)} className="complete-btn">
+                   {task.completed ? "Undo" : "Complete"}
+             </button>
+             <button onClick={() => deleteTask(task.id)} className="delete-btn">Delete</button>
+
             </div>
         </li>
-        
+      
     );
 };
 export default TaskComponent;

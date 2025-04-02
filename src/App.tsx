@@ -42,7 +42,6 @@ const App: React.FC = () => {
           <TaskComponent
             key={task.id} 
             task={task}
-            index={index} 
             toggleComplete={toggleComplete}
             deleteTask={deleteTask}
           />
